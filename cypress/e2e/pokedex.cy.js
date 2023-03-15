@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe('pokedex', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3001')

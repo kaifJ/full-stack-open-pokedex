@@ -1,6 +1,6 @@
-# fly.toml file generated for fsopen-ksj-cicd on 2023-03-16T19:32:46+02:00
+# fly.toml file generated for fullstackopen-cicd-ksj on 2023-03-16T20:16:51+02:00
 
-app = "fsopen-ksj-cicd"
+app = "fullstackopen-cicd-ksj"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "arn"

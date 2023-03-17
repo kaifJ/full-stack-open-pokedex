@@ -1,6 +1,6 @@
 #!/bin/bash
 
-response=$(curl -s http://localhost:3001/health)
+response=$(curl -s https://wispy-dream-7321.fly.dev/health)
 
 if [[ "$response" == *"ok"* ]]; then
   exit 0

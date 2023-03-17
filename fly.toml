@@ -35,18 +35,19 @@ primary_region = "arn"
     handlers = ["tls", "http"]
     port = 443
 
+  [[services.http_checks]]
+    interval = 60000
+    grace_period = "5s"
+    method = "get"
+    path = "/health"
+    protocol = "https"
+    restart_limit = 0
+    timeout = 2000
+    tls_skip_verify = true
+    [services.http_checks.headers]
+
   [[services.tcp_checks]]
     grace_period = "1s"
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
-
-  [[services.https_checks]]
-    interval = 60 * 1000
-    grace_period = "5s"
-    method = "get"
-    path  = "/health"
-    protocol = "https"
-    restart_limit = 0
-    timeout = 5000
-    tls_skip_verify = true

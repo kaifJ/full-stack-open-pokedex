@@ -6,10 +6,12 @@ const PORT = process.env.PORT || 3001
 
 app.use(express.static('dist'))
 app.get('/health', (req, res) => {
+  throw 'error'
+  // eslint-disable-next-line no-unreachable
   res.send('ok')
 })
 app.get('/version', (req, res) => {
-  res.send('2') // change this string to ensure a new version deployed
+  res.send('3') // change this string to ensure a new version deployed
 })
 
 app.listen(PORT, () => {

@@ -23,12 +23,6 @@ jobs:
         run: npm run build
       - name: test
         run: npm run test
-      - name: e2e tests
-        uses: cypress-io/github-action@v4
-        with:
-          build: npm run build
-          start: npm run start-prod
-          wait-on: http://localhost:3001
       - name: Check commit message
         id: commit_message
         run: |
@@ -39,24 +33,32 @@ jobs:
           else
             message="${{ github.event.head_commit.message }}"
           fi
-
           if [[ "$message" =~ "#skip" ]]; then
             echo "::set-output name=skip::true"
           fi
+      - name: e2e tests
+        if: steps.commit_message.outputs.skip != 'true'
+        uses: cypress-io/github-action@v4
+        with:
+          build: npm run build
+          start: npm run start-prod
+          wait-on: http://localhost:3001
+          
   tag_release:
     needs: simple_deployment_pipeline
     runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' && needs.simple_deployment_pipeline.outputs.commit_message.outputs.skip != 'true'}}
     steps:
       - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' && simple_deployment_pipeline.steps.commit_message.outputs.skip != 'true'}}
         uses: anothrNick/github-tag-action@1.61.0
         env:
           GITHUB_TOKEN: ${{ secrets.GHUB_TOKEN }}
           DEFAULT_BUMP: patch
+
   deploy:
     name: Deploy app
     needs: simple_deployment_pipeline
-    if: ${{ github.event_name == 'push' && simple_deployment_pipeline.steps.commit_message.outputs.skip != 'true'}}
+    if: ${{ github.event_name == 'push' && needs.simple_deployment_pipeline.outputs.commit_message.outputs.skip != 'true'}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

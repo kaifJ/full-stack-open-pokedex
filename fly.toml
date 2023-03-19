@@ -20,6 +20,7 @@ primary_region = "arn"
   internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
+  script_checks = []
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
@@ -35,7 +36,7 @@ primary_region = "arn"
     port = 443
 
   [[services.http_checks]]
-    interval = 60000
+    interval = 10000
     grace_period = "5s"
     method = "get"
     path = "/health"

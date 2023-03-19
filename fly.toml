@@ -1,6 +1,6 @@
-# fly.toml file generated for wispy-dream-7321 on 2023-03-16T20:32:33+02:00
+# fly.toml file generated for fullstackopen-kaif-pokemon on 2023-03-19T11:43:33+02:00
 
-app = "wispy-dream-7321"
+app = "fullstackopen-kaif-pokemon"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "arn"

@@ -32,7 +32,7 @@ jobs:
       - name: Check commit message
         id: commit_message
         run: |
-           if [[ "${{ github.event_name }}" == 'pull_request' ]]; then
+          if [[ "${{ github.event_name }}" == 'pull_request' ]]; then
             message=$(curl --silent "${{ github.event.pull_request.url }}/merge" \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github.VERSION.sha")

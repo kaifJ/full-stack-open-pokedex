@@ -18,7 +18,7 @@ processes = []
 
 
 [[services]]
-  internal_port = 8080
+  internal_port = 3001
   processes = ["app"]
   protocol = "tcp"
   [services.concurrency]

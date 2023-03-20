@@ -21,6 +21,7 @@ primary_region = "arn"
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
+  http_checks = []
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
@@ -34,17 +35,6 @@ primary_region = "arn"
   [[services.ports]]
     handlers = ["tls", "http"]
     port = 443
-
-  [[services.http_checks]]
-    interval = 10000
-    grace_period = "30s"
-    method = "get"
-    path = "/health"
-    protocol = "https"
-    restart_limit = 0
-    timeout = 2000
-    tls_skip_verify = true
-    [services.http_checks.headers]
 
   [[services.tcp_checks]]
     grace_period = "30s"

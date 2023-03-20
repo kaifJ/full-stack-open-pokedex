@@ -42,7 +42,7 @@ jobs:
         with:
           build: npm run build
           start: npm run start-prod
-          wait-on: http://localhost:3001
+          wait-on: http://localhost:8080
           
   deploy_and_tag:
     needs: simple_deployment_pipeline

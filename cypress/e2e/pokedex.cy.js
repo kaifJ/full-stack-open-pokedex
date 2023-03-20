@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 describe('pokedex', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3001')
+    cy.visit('http://localhost:8080')
   })
   it('front page can be opened', function () {
     cy.contains('ivysaur')

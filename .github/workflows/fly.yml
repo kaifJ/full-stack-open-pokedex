@@ -44,25 +44,32 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:3001
           
-  tag_release:
+  deploy_and_tag:
     needs: simple_deployment_pipeline
     runs-on: ubuntu-20.04
     if: ${{ github.event_name == 'push' && needs.simple_deployment_pipeline.outputs.commit_message.outputs.skip != 'true'}}
     steps:
+      - name: Deploy app
+        uses: actions/checkout@v3
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.61.0
         env:
           GITHUB_TOKEN: ${{ secrets.GHUB_TOKEN }}
           DEFAULT_BUMP: patch
-
-  deploy:
-    name: Deploy app
-    needs: simple_deployment_pipeline
-    if: ${{ github.event_name == 'push' && needs.simple_deployment_pipeline.outputs.commit_message.outputs.skip != 'true'}}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      # - name: Tag Update failure
+      #   if: failure()
+      #   with: 
+      #       severity: error
+      #       details: Failed to update tag
+      #       webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      # - name: Tag Update Success
+      #   if: success()
+      #   with: 
+      #       severity: info
+      #       details: Successfully updated tag
+      #       webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
